@@ -30,6 +30,7 @@ services:
     volumes:
       - ./nodemon.json:/usr/src/app/nodemon.json
       - ./package.json:/usr/src/app/package.json
+      - ./db:/usr/src/app/db/
       - ./src:/usr/src/app/src/
       - /usr/src/app/node_modules/
     restart: unless-stopped
