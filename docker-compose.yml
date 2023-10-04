@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+
+  x-vite:
+    container_name: x-vite
+    image: node:19-alpine
+    working_dir: /usr/src/app
+    volumes:
+      - ./package.json:/usr/src/app/package.json
+      - ./vite.config.js:/usr/src/app/vite.config.js
+      - ./svelte.config.js:/usr/src/app/svelte.config.js
+      - ./src:/usr/src/app/src/
+      - /usr/src/app/.svelte-kit/
+      - /usr/src/app/node_modules/
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+      - "9230:9229"
+    expose:
+      - '4000'
+      - '9230'
+    environment:
+      PORT: 4000
+    command: [sh, -c, "npm i && npm i -g vite && npm run dev:vite"]
+
+  x-server:
+    container_name: x-server
+    image: node:19-alpine
+    working_dir: /usr/src/app
+    volumes:
+      - ./nodemon.json:/usr/src/app/nodemon.json
+      - ./package.json:/usr/src/app/package.json
+      - ./src:/usr/src/app/src/
+      - /usr/src/app/node_modules/
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+      - "9231:9229"
+    expose:
+      - '3000'
+      - '9231'
+    environment:
+      PORT: 3000
+    command: [sh, -c, "npm i && npm i -g nodemon && npm run dev:server"]
