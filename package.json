@@ -9,7 +9,7 @@
     "dev:vite": "vite dev --host 0.0.0.0",
     "dev:server": "nodemon --legacy-watch --trace-warnings --trace-deprecation --inspect=0.0.0.0 src/server.js",
     "build": "vite build",
-    "start:vite": "vite start --port 4000",
+    "start:vite": "vite start --port 3000",
     "start:server": "node src/server.js"
   },
   "dependencies": {

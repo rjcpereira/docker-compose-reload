@@ -1,5 +1,7 @@
 import express from 'express'
 
+const port = process.env.PORT || 3000;
+
 const server = express();
 
 server.use('/api', express.static('db', {
@@ -11,4 +13,4 @@ server.get('*', (req, res) => res.send({
     foo: 'bar'
 }));
 
-server.listen(3000, () => console.log('http://localhost:3000'));
+server.listen(port, () => console.log(`http://localhost:${port}`));
