@@ -4,13 +4,15 @@
   "description": "Docker Compose with hot reload (nodemon & sveltekit)",
   "type": "module",
   "scripts": {
-    "clear": "docker-compose  down --remove-orphans",
-    "dev": "docker-compose  up --build",
+    "clear": "docker-compose down --remove-orphans",
+    "dev": "docker-compose up --build",
     "dev:vite": "vite dev --host 0.0.0.0",
     "dev:server": "nodemon --legacy-watch --trace-warnings --trace-deprecation --inspect=0.0.0.0 src/server.js",
     "build": "vite build",
-    "start:vite": "vite start --port 3000",
-    "start:server": "node src/server.js"
+    "start:vite": "vite start --port 3000 --host 0.0.0.0",
+    "start:server": "node src/server.js",
+    "test": "docker-compose -f prod.yml up --build",
+    "test:clear": "docker-compose -f prod.yml down --remove-orphans"
   },
   "dependencies": {
     "express": "^4.18.2"

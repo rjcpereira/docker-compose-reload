@@ -1,3 +1,3 @@
 <main>
-    <h2>page</h2>
+    <h2>paghhe</h2>
 </main>

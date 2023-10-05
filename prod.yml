@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+
+  x-web:
+    container_name: x-web
+    build:
+      context: .
+      target: x-web
+
+  x-admin:
+    container_name: x-admin
+    build:
+      context: .
+      target: x-admin
+
+  x-nginx:
+    container_name: x-nginx
+    build:
+      context: .
+      target: x-nginx
+    ports:
+      - 80:80
+      - 81:81
+    depends_on:
+      - x-web
+      - x-admin

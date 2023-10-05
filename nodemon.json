@@ -3,5 +3,11 @@
         "src",
         "usr/src/app/src"
     ],
+    "ignore": [
+      "dist",
+      "node_modules",
+      "build",
+      ".svelte-kit"
+    ],
     "ext": "js"
 }

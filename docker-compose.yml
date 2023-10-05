@@ -13,8 +13,18 @@ services:
       - /usr/src/app/.svelte-kit/
       - /usr/src/app/node_modules/
     restart: unless-stopped
+    ports:
+      - 3000:3000
+      - 9229:9229
+    expose:
+      - 9229
     environment:
       PORT: 3000
+      MONGO_CONFIG: mongodb://x-mongo:27017
+      MONGO_USER: admin
+      MONGO_PASS: develop
+      REDIS_CONFIG: redis://x-redis:6379
+      REDIS_PASS: develop
     command: [ sh, -c, "npm i && npm i -g vite && npm run dev:vite" ]
 
   x-server:
@@ -41,20 +51,24 @@ services:
     container_name: x-nginx
     image: nginx:1.25.1-alpine-slim
     volumes:
-      - ./nginx/dev.nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/dev.conf:/etc/nginx/nginx.conf
     entrypoint: nginx
     ports:
-      - "80:80"
-      - "81:81"
+      - 80:80
+      - 81:81
+      - 443:443
+    depends_on:
+      - x-vite
+      - x-server
     command: [ "-g", "daemon off;" ]
 
   x-mongo:
     container_name: x-mongo
     image: mongo
     ports:
-      - "27017:27017"
+      - 27017:27017
     expose:
-      - '27017'
+      - 27017
     environment:
       PORT: 27017
       MONGO_INITDB_DATABASE: admin
@@ -65,9 +79,9 @@ services:
     container_name: x-redis
     image: redis:7.0.12-alpine
     ports:
-      - "6379:6379"
+      - 6379:6379
     expose:
-      - '6379'
+      - 6379
     environment:
       PORT: 6379
       REDIS_ARGS: --requirepass develop
