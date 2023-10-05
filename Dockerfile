@@ -11,6 +11,6 @@ CMD ["npm", "run", "start:vite"]
 
 FROM nginx:1.25.1-alpine-slim AS x-nginx
 COPY ./nginx/ ./etc/nginx/
-EXPOSE 80
+EXPOSE 80 81
 ENTRYPOINT ["nginx"]
 CMD ["-g", "daemon off;"]
