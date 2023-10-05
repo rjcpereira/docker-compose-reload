@@ -13,15 +13,9 @@ services:
       - /usr/src/app/.svelte-kit/
       - /usr/src/app/node_modules/
     restart: unless-stopped
-    ports:
-      - "3000:3000"
-      - "9230:9229"
-    expose:
-      - '3000'
-      - '9230'
     environment:
       PORT: 3000
-    command: [sh, -c, "npm i && npm i -g vite && npm run dev:vite"]
+    command: [ sh, -c, "npm i && npm i -g vite && npm run dev:vite" ]
 
   x-server:
     container_name: x-server
@@ -34,12 +28,46 @@ services:
       - ./src:/usr/src/app/src/
       - /usr/src/app/node_modules/
     restart: unless-stopped
-    ports:
-      - "3001:3000"
-      - "9231:9229"
-    expose:
-      - '3001'
-      - '9231'
     environment:
       PORT: 3000
-    command: [sh, -c, "npm i && npm i -g nodemon && npm run dev:server"]
+    command:
+      [
+        sh,
+        -c,
+        "npm i && npm i -g nodemon && npm run dev:server"
+      ]
+
+  x-nginx:
+    container_name: x-nginx
+    image: nginx:1.25.1-alpine-slim
+    volumes:
+      - ./nginx/dev.nginx.conf:/etc/nginx/nginx.conf
+    entrypoint: nginx
+    ports:
+      - "80:80"
+      - "81:81"
+    command: [ "-g", "daemon off;" ]
+
+  x-mongo:
+    container_name: x-mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    expose:
+      - '27017'
+    environment:
+      PORT: 27017
+      MONGO_INITDB_DATABASE: admin
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: develop
+
+  x-redis:
+    container_name: x-redis
+    image: redis:7.0.12-alpine
+    ports:
+      - "6379:6379"
+    expose:
+      - '6379'
+    environment:
+      PORT: 6379
+      REDIS_ARGS: --requirepass develop
