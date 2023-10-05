@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 
-const port = process.env.PORT || 3000;
+import { port } from './src/config.js';
 
 export default defineConfig({
 	server: {

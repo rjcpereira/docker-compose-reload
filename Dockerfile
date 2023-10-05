@@ -4,6 +4,7 @@ WORKDIR /app
 COPY . .
 RUN npm i
 RUN npm i -g vite
+ENV PORT='3000'
 ENV NODE_ENV='production'
 RUN npm run build
 EXPOSE 3000
